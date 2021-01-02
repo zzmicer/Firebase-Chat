@@ -1,10 +1,12 @@
-package com.example.firebasechat
+package com.example.firebasechat.activity
 
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.firebasechat.R
+import com.example.firebasechat.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
@@ -30,7 +32,7 @@ class SignUpActivity : AppCompatActivity() {
             if (TextUtils.isEmpty(userName)){
                 Toast.makeText(applicationContext,"username is required",Toast.LENGTH_SHORT).show()
             }
-            if (TextUtils.isEmpty(email) || !email.contains("@  ")){
+            if (TextUtils.isEmpty(email) || !email.contains("@")){
                 Toast.makeText(applicationContext,"email is required",Toast.LENGTH_SHORT).show()
             }
 
@@ -82,10 +84,10 @@ class SignUpActivity : AppCompatActivity() {
                             etConfirmPassword.setText("")
                             val intent = Intent(
                                 this@SignUpActivity,
-                                HomeActivity::class.java
+                                UserActivity::class.java
                             )
                             startActivity(intent)
-
+                            finish()
                         }
                     }
 

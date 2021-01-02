@@ -1,10 +1,11 @@
-package com.example.firebasechat
+package com.example.firebasechat.activity
 
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.firebasechat.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_login.*
@@ -18,8 +19,17 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         auth = FirebaseAuth.getInstance()
+        firebaseUser = auth!!.currentUser
 
-
+        //check if user login then navigate to user screen
+        if (firebaseUser != null) {
+            val intent = Intent(
+                this@LoginActivity,
+                UserActivity::class.java
+            )
+            startActivity(intent)
+            finish()
+        }
 
         btnLogin.setOnClickListener {
             val email = etEmail.text.toString()
@@ -39,7 +49,7 @@ class LoginActivity : AppCompatActivity() {
                             etPassword.setText("")
                             val intent = Intent(
                                 this@LoginActivity,
-                                HomeActivity::class.java
+                                UserActivity::class.java
                             )
                             startActivity(intent)
                             finish()
