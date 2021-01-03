@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.firebasechat.R
+import com.example.firebasechat.activity.ChatActivity
 import com.example.firebasechat.model.User
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -32,12 +33,12 @@ class UserAdapter(private val context: Context, private val userList: ArrayList<
         holder.txtUserName.text = user.userName
         Glide.with(context).load(user.profileImage).placeholder(R.drawable.profile_image).into(holder.imgUser)
 
-//        holder.layoutUser.setOnClickListener {
-//            val intent = Intent(context,ChatActivity::class.java)
-//            intent.putExtra("userId",user.userId)
-//            intent.putExtra("userName",user.userName)
-//            context.startActivity(intent)
-//        }
+        holder.layoutUser.setOnClickListener {
+            val intent = Intent(context, ChatActivity::class.java)
+            intent.putExtra("userId",user.userId)
+            intent.putExtra("userName",user.userName)
+            context.startActivity(intent)
+        }
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -45,6 +46,6 @@ class UserAdapter(private val context: Context, private val userList: ArrayList<
         val txtUserName: TextView = view.findViewById(R.id.userName)
         val txtTemp:TextView = view.findViewById(R.id.temp)
         val imgUser: CircleImageView = view.findViewById(R.id.userImage)
-        //val layoutUser: LinearLayout = view.findViewById(R.id.layoutUser)
+        val layoutUser: LinearLayout = view.findViewById(R.id.layoutUser)
     }
 }

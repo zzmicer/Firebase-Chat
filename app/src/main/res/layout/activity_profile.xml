@@ -70,7 +70,7 @@
                 android:maxLines="1"
                 android:textAlignment="center"
                 android:textSize="20sp"
-                tools:text="" />
+                tools:text="Dmitry" />
 
             <Button
                 android:id="@+id/btnSave"
