@@ -2,18 +2,26 @@ package com.example.firebasechat.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.firebasechat.R
+import com.example.firebasechat.RetrofitInstance
 import com.example.firebasechat.adapter.ChatAdapter
 import com.example.firebasechat.model.Chat
+import com.example.firebasechat.model.NotificationData
+import com.example.firebasechat.model.PushNotification
 import com.example.firebasechat.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_chat.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ChatActivity : AppCompatActivity() {
     var firebaseUser: FirebaseUser? = null
@@ -67,10 +75,11 @@ class ChatActivity : AppCompatActivity() {
                 sendMessage(firebaseUser!!.uid, userId, message)
                 etMessage.setText("")
                 topic = "/topics/$userId"
-//                PushNotification(NotificationData( userName!!,message),
-//                    topic).also {
-//                    sendNotification(it)
-//                }
+                PushNotification(
+                    NotificationData( userName!!,message),
+                    topic).also {
+                    sendNotification(it)
+                }
 
             }
         }
@@ -118,5 +127,16 @@ class ChatActivity : AppCompatActivity() {
         })
     }
 
-
+    private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val response = RetrofitInstance.api.postNotification(notification)
+            if(response.isSuccessful) {
+                Log.d("TAG", "Response: ${Gson().toJson(response)}")
+            } else {
+                Log.e("TAG", response.errorBody()!!.string())
+            }
+        } catch(e: Exception) {
+            Log.e("TAG", e.toString())
+        }
+    }
 }

@@ -12,7 +12,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.ChatActivity"></activity>
+        <activity android:name=".activity.ChatActivity"/>
+
+        <service android:name=".firebase.FirebaseService"
+            android:permission="com.google.android.c2dm.permission.SEND">
+
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+
+        </service>
+
         <activity android:name=".activity.UserActivity" />
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
